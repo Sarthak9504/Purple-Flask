@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">DBMS_Lab_Inventory</string>
+    <string name="explore_youtube">Explore App</string>
+    <string name="get_started">Get Started</string>
+    <string name="screen1">Manage lab inventory</string>
+    <string name="screen2">Store data for equipments</string>
+    <string name="screen3">Safe and secured</string>
+    <string name="screen1desc">Efficiently track and manage lab equipment inventory with our intuitive app,
+        ensuring seamless organization and accessibility for all your laboratory needs</string>
+    <string name="screen2desc">Effortlessly store and access essential equipment data,
+        providing streamlined organization and accessibility tailored to your laboratory\'s requirements. </string>
+    <string name="screen3desc">Ensure lab inventory data security with encryption,
+        access controls, and regular backups, safeguarding against unauthorized access or loss</string>
+    <string name="startDesc">Keep track of equipment, streamline operations, and optimize your lab\'s workflow effortlessly. </string>
+    <string name="skip">Skip</string>
+    <string name="back">Back</string>
+    <string name="next">Next</string>
+    <string name="college">College/University</string>
+    <string name="please_login_to_your_account">Please login to your account</string>
+    <string name="sign_in">Sign in</string>
+    <string name="department_id">Department Email ID</string>
+    <string name="signin">Sign In</string>
+    <string name="or">OR</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+</resources>

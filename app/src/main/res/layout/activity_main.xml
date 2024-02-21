@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="@color/lavender">
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/baseline_menu_24"/>
+
+    <ImageView
+        android:id="@+id/profile_image"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/lab"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp"
+        android:layout_above="@+id/relative_card_view"
+        android:layout_marginBottom="60dp" />
+
+    <TextView
+        android:id="@+id/dep_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Department of Computer Engineering"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/college_name"
+        android:layout_marginStart="10dp"
+        android:layout_toStartOf="@+id/profile_image"/>
+
+    <TextView
+        android:id="@+id/college_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Vishwakarma Institute of Technology"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/relative_card_view"
+        android:layout_marginBottom="70dp"
+        android:layout_marginStart="10dp"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/lab_count"
+        android:layout_width="140dp"
+        android:layout_height="80dp"
+        app:cardCornerRadius="20dp"
+        android:elevation="100dp"
+        android:layout_below="@+id/college_name"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="40sp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Lab Count"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/lab_count_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:textSize="20sp"/>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/equipment_count"
+        android:layout_width="140dp"
+        android:layout_height="80dp"
+        app:cardCornerRadius="20dp"
+        android:elevation="100dp"
+        android:layout_below="@+id/college_name"
+        android:layout_toEndOf="@+id/lab_count"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="40dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Total Equipments"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/equipment_count_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:textSize="20sp"/>
+    </androidx.cardview.widget.CardView>
+
+
+    <RelativeLayout
+        android:id="@+id/relative_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="470dp"
+        android:background="@drawable/rounded_white_back"
+        android:layout_alignParentBottom="true">
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="80dp"
+            android:background="@color/grey"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/lab_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lab_count"
+        android:text="Labs"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        android:textColor="@color/black"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lab_text_view"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"/>
+
+</RelativeLayout>
