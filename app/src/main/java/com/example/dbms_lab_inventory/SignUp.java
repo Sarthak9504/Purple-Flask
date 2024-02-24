@@ -3,6 +3,7 @@ package com.example.dbms_lab_inventory;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -78,17 +79,20 @@ public class SignUp extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
                         if (task.isSuccessful()) {
-                            SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+                            SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", Context.MODE_PRIVATE);
                             SharedPreferences.Editor myEdit = sharedPreferences.edit();
                             myEdit.putInt("isLogged",1);
                             myEdit.putString("college_name",college_name.getText().toString().trim());
                             myEdit.putString("Dep_name",autoCompleteTextView.getText().toString().trim());
                             myEdit.putString("Dep_email",dep_email.getText().toString().trim());
+                            myEdit.putInt("Lab_count",0);
+                            myEdit.putInt("Equipment_count",0);
+                            myEdit.putBoolean("isFirst",true);
                             myEdit.apply();
 
                             firebaseDatabase = FirebaseDatabase.getInstance();
-                            user_ref = firebaseDatabase.getReference("College/University");
-                            user_ref.child(college).setValue(new RBUtility(dep_name,email,state_text,city_text));
+                            user_ref = firebaseDatabase.getReference("College or University");
+                            user_ref.child(college).setValue(new RBUtility(email,state_text,city_text));
 
                             Toast.makeText(SignUp.this, "User registered successfully", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(SignUp.this,MainActivity.class));

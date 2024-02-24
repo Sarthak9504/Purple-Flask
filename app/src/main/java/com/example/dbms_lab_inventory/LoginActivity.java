@@ -79,8 +79,10 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
                         SharedPreferences.Editor myEdit = sharedPreferences.edit();
                         myEdit.putInt("isLogged",1);
+                        myEdit.putBoolean("isFirst",true);
                         myEdit.apply();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        intent.putExtra("newLogin", false);
                         startActivity(intent);
                         finish();
                     } else {
