@@ -1,26 +1,15 @@
 package com.example.dbms_lab_inventory;
 
 public class RBUtility {
-    String dep_name;
     String dep_id;
     String state;
     String city;
 
-    public RBUtility(String dep_name, String dep_id, String state, String city) {
-        this.dep_name = dep_name;
+    public RBUtility( String dep_id, String state, String city) {
         this.dep_id = dep_id;
         this.state = state;
         this.city = city;
     }
-
-    public String getDep_name() {
-        return dep_name;
-    }
-
-    public void setDep_name(String dep_name) {
-        this.dep_name = dep_name;
-    }
-
     public String getDep_id() {
         return dep_id;
     }

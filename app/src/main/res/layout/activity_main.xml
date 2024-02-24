@@ -8,11 +8,33 @@
     android:background="@color/lavender">
 
     <ImageView
+        android:id="@+id/menu"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:src="@drawable/baseline_menu_24"/>
+        android:src="@drawable/baseline_menu_24"
+        android:layout_marginTop="2dp"/>
+
+    <TextView
+        android:id="@+id/tittle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Purple Flask"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"/>
+
+    <ImageView
+        android:id="@+id/notifis"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/baseline_notifications_24"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="5dp"/>
 
     <ImageView
         android:id="@+id/profile_image"
@@ -125,6 +147,7 @@
             android:layout_marginTop="20dp"
             android:layout_centerHorizontal="true"/>
 
+
     </RelativeLayout>
 
     <TextView
@@ -139,11 +162,25 @@
         android:textColor="@color/black"/>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/lab_text_view"
         android:layout_marginTop="20dp"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/lavender"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:elevation="50dp"
+        android:src="@drawable/baseline_add_24">
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
 </RelativeLayout>

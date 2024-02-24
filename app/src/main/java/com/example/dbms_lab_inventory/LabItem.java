@@ -4,6 +4,10 @@ public class LabItem {
     String room_num;
     String lab_type;
 
+    public LabItem(){
+
+    }
+
     public LabItem(String room_num, String lab_type) {
         this.room_num = room_num;
         this.lab_type = lab_type;
