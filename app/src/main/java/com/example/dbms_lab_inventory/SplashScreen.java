@@ -23,10 +23,14 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void run() {
                 SharedPreferences sh = getSharedPreferences("MySharedPref", Context.MODE_PRIVATE);
-                long loggedIn = sh.getLong("isLogged", -1);
+                int loggedIn = sh.getInt("isLogged", -1);
                 if (loggedIn == -1) {
                     myIntent = new Intent(SplashScreen.this, Navigation.class);
                 } else {
+                    SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor myEdit = sharedPreferences.edit();
+                    myEdit.putBoolean("isFirst",true);
+                    myEdit.apply();
                     myIntent = new Intent(SplashScreen.this, MainActivity.class);
                     myIntent.putExtra("newLogin", false);
                 }
