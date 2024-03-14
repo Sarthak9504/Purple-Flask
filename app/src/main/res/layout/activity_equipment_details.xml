@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".EquipmentDetails">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/back_arrow"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/baseline_arrow_back_ios_24"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="10dp"/>
+
+            <LinearLayout
+                android:id="@+id/edit_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/baseline_edit_24"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Edit"
+                    android:textSize="25sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/lab_photo"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/back_arrow"
+                android:src="@drawable/baseline_image_24"/>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/details_card_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="#F2F2F2"
+                android:layout_below="@+id/lab_photo"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="15dp"
+                android:layout_marginBottom="20dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Equipment Details"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="17sp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"/>
+
+                    <View
+                        android:id="@+id/view1"
+                        android:layout_centerVertical="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/black"
+                        android:layout_below="@+id/title"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"/>
+
+                    <TextView
+                        android:id="@+id/name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/view1"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"
+                        android:text="Name of the Equipment: "
+                        android:textColor="@color/black"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/name_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/name"
+                        android:text="name"
+                        android:layout_marginStart="20dp"/>
+
+                    <View
+                        android:id="@+id/view2"
+                        android:layout_centerVertical="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/black"
+                        android:layout_below="@+id/name_text"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"/>
+
+                    <TextView
+                        android:id="@+id/purchase"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/view2"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"
+                        android:text="Purchase Date: "
+                        android:textColor="@color/black"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/purchase_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/purchase"
+                        android:text="1234"
+                        android:layout_marginStart="20dp"/>
+
+                    <View
+                        android:id="@+id/view3"
+                        android:layout_centerVertical="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/black"
+                        android:layout_below="@+id/purchase_text"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"/>
+
+                    <TextView
+                        android:id="@+id/price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/view3"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"
+                        android:text="Purchase Price: "
+                        android:textColor="@color/black"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/price_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/price"
+                        android:text="1234"
+                        android:layout_marginStart="20dp"/>
+
+                    <View
+                        android:id="@+id/view4"
+                        android:layout_centerVertical="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/black"
+                        android:layout_below="@+id/price_text"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"/>
+
+                    <TextView
+                        android:id="@+id/qty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/view4"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"
+                        android:text="Quantity: "
+                        android:textColor="@color/black"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/qty_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/qty"
+                        android:text="1234"
+                        android:layout_marginStart="20dp"/>
+
+                    <View
+                        android:id="@+id/view5"
+                        android:layout_centerVertical="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/black"
+                        android:layout_below="@+id/qty_text"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"/>
+
+                    <TextView
+                        android:id="@+id/donor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/view5"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"
+                        android:text="Donor: "
+                        android:textColor="@color/black"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/donor_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/donor"
+                        android:text="1234"
+                        android:layout_marginStart="20dp" />
+
+                    <View
+                        android:id="@+id/view6"
+                        android:layout_centerVertical="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/black"
+                        android:layout_below="@+id/donor_text"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"/>
+
+                    <TextView
+                        android:id="@+id/purpose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/view6"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"
+                        android:text="Purpose: "
+                        android:textColor="@color/black"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/purpose_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/purpose"
+                        android:text="1234"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginBottom="20dp"/>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/pdf_button"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="View PDF for details"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:padding="8dp"
+                android:textSize="20sp"
+                android:layout_marginTop="30dp"
+                android:layout_gravity="center"
+                app:cornerRadius = "12dp"
+                android:layout_below="@+id/details_card_view"
+                android:layout_centerHorizontal="true"/>
+
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

@@ -41,10 +41,12 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:background="@drawable/lab"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="20dp"
-        android:layout_above="@+id/relative_card_view"
-        android:layout_marginBottom="60dp" />
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="5dp"
+        android:layout_below="@+id/menu"
+        android:scaleType="fitCenter"
+        android:layout_marginTop="20dp"
+        android:layout_centerVertical="true"/>
 
     <TextView
         android:id="@+id/dep_name"
@@ -55,9 +57,8 @@
         android:textStyle="bold"
         android:textColor="@color/white"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/college_name"
         android:layout_marginStart="10dp"
-        android:layout_toStartOf="@+id/profile_image"/>
+        android:layout_below="@+id/profile_image"/>
 
     <TextView
         android:id="@+id/college_name"
@@ -68,7 +69,7 @@
         android:textColor="@color/white"
         android:layout_alignParentStart="true"
         android:layout_above="@+id/relative_card_view"
-        android:layout_marginBottom="70dp"
+        android:layout_below="@+id/dep_name"
         android:layout_marginStart="10dp"/>
 
     <androidx.cardview.widget.CardView

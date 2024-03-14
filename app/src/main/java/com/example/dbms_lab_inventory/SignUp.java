@@ -92,7 +92,7 @@ public class SignUp extends AppCompatActivity {
 
                             firebaseDatabase = FirebaseDatabase.getInstance();
                             user_ref = firebaseDatabase.getReference("College or University");
-                            user_ref.child(college).setValue(new RBUtility(email,state_text,city_text));
+                            user_ref.child(college).child(autoCompleteTextView.getText().toString().trim()).setValue(new RBUtility(email,state_text,city_text));
 
                             Toast.makeText(SignUp.this, "User registered successfully", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(SignUp.this,MainActivity.class));

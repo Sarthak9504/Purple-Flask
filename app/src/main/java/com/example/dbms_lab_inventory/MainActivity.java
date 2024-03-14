@@ -1,13 +1,16 @@
 package com.example.dbms_lab_inventory;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
@@ -15,12 +18,15 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -31,9 +37,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ItemClickListener{
     private FloatingActionButton add_lab_button;
     private Dialog customDialog;
     private ImageView menu;
@@ -54,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private List<LabItem> list;
     private LabAdapter adapter;
+    private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         init();
         initDialogBox();
         add_lab_details();
+        //Toast.makeText(this, "Calling list here", Toast.LENGTH_SHORT).show();
         fill_list();
         set_text_view();
 
@@ -73,12 +82,32 @@ public class MainActivity extends AppCompatActivity {
         cancel.setOnClickListener(view -> customDialog.dismiss());
 
         done.setOnClickListener(view -> add_data_to_firebase());
+
+        est_date.setOnClickListener(view -> date_picker());
+    }
+
+    private void date_picker(){
+        final Calendar c = Calendar.getInstance();
+
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                MainActivity.this,
+                (view, year1, monthOfYear, dayOfMonth) -> {
+                    String date = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year1;
+                    est_date.setText(date,TextView.BufferType.EDITABLE);
+
+                },
+                year, month, day);
+        datePickerDialog.show();
     }
 
     private void set_text_view(){
         SharedPreferences sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
         String depName = "Department of " + sh.getString("Dep_name"," ");
-        String labCount = sh.getInt("Lab_count",0) + "";
+        String labCount = String.valueOf(list.size());
         String equipCount = sh.getInt("Equipment_count",0) + "";
         lab_count.setText(labCount);
         equip_count.setText(equipCount);
@@ -88,12 +117,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void fill_list(){
         list.clear();
+        Toast.makeText(this, "In fill list", Toast.LENGTH_SHORT).show();
         SharedPreferences sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
-        Log.d("boolean",sh.getBoolean("isFirst",false)+"");
-        if(!sh.getBoolean("isFirst",false)){
-            Log.d("boolean","haaaaaaaaaaaaaaaaaaaaaaaaad");
-            return;
-        }
         String college_name = sh.getString("college_name"," ");
         DatabaseReference rc_view_ref = FirebaseDatabase.getInstance().getReference("College or University").child(college_name).child(sh.getString("Dep_name"," ")).child("Lab Details");
 
@@ -107,6 +132,9 @@ public class MainActivity extends AppCompatActivity {
                         for(DataSnapshot labSnapshot : dataSnapshot.getChildren())
                         {
                             String key = labSnapshot.getKey();
+                            if(key.equals("Equipments")){
+                                continue;
+                            }
                             String value = labSnapshot.getValue(String.class);
 
                             assert key != null;
@@ -121,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     else{
                         Log.d("null","here");
-                        adapter = new LabAdapter(MainActivity.this,list);
+                        adapter = new LabAdapter(MainActivity.this,list,MainActivity.this);
                         recyclerView.setAdapter(adapter);
                     }
                 }
@@ -132,11 +160,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", Context.MODE_PRIVATE);
-        SharedPreferences.Editor myEdit = sharedPreferences.edit();
-        myEdit.putBoolean("isFirst",false);
-        myEdit.apply();
-        Log.d("boolean",sh.getBoolean("isFirst",false)+"");
     }
 
     private void add_data_to_firebase(){
@@ -157,8 +180,7 @@ public class MainActivity extends AppCompatActivity {
 
             SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", Context.MODE_PRIVATE);
             SharedPreferences.Editor myEdit = sharedPreferences.edit();
-            myEdit.putInt("Lab_count",sh.getInt("Lab_count",0)+1);
-            myEdit.putBoolean("isFirst",false);
+            myEdit.putInt("Lab_count",list.size());
             myEdit.apply();
             set_text_view();
 
@@ -228,10 +250,62 @@ public class MainActivity extends AppCompatActivity {
         list = new ArrayList<>();
     }
 
+
     protected void onResume() {
         super.onResume();
-        if (!isTaskRoot() && customDialog != null && !customDialog.isShowing()) {
+        if (!isTaskRoot() && customDialog != null && !customDialog.isShowing() && alertDialog != null && alertDialog.isShowing()) {
+            //Toast.makeText(this, "here", Toast.LENGTH_SHORT).show();
             fill_list();
         }
+    }
+
+    @Override
+    public void onClick(LabItem labItem) {
+        Intent intent = new Intent(MainActivity.this,LabDetailsActivity.class);
+        intent.putExtra("Room_no",labItem.room_num);
+        Log.d("room",labItem.room_num);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onLongPress(LabItem labItem) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setMessage("Are you sure you want to delete this lab");
+        builder.setTitle("Alert !");
+        builder.setCancelable(false);
+
+        builder.setPositiveButton("Yes", (dialog, which) -> {
+            list.clear();
+            SharedPreferences sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+            String college_name = sh.getString("college_name"," ");
+            user_ref = FirebaseDatabase.getInstance().getReference("College or University").child(college_name).child(sh.getString("Dep_name"," ")).child("Lab Details");
+
+            user_ref.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.exists()) {
+                        for(DataSnapshot snapshot1 : snapshot.getChildren()) {
+                            String key = snapshot1.getKey();
+                            if(key.equals(labItem.room_num)){
+                                snapshot1.getRef().removeValue();
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        });
+
+        builder.setNegativeButton("No", (dialog, which) -> {
+            dialog.cancel();
+        });
+
+        alertDialog = builder.create();
+        alertDialog.show();
     }
 }

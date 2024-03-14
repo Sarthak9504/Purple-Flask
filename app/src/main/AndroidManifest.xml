@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,6 +15,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DBMS_Lab_Inventory"
         tools:targetApi="31">
+        <activity
+            android:name=".EquipmentDetails"
+            android:exported="false" />
+        <activity
+            android:name=".EditEquipments"
+            android:exported="false" />
+        <activity
+            android:name=".LabEquipmentsClass"
+            android:exported="false" />
+        <activity
+            android:name=".EditLabDetails"
+            android:exported="false" />
+        <activity
+            android:name=".LabDetailsActivity"
+            android:exported="false" />
         <activity
             android:name=".SignUp"
             android:exported="false" />
