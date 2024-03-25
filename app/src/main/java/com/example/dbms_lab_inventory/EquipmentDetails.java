@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -49,17 +50,24 @@ public class EquipmentDetails extends AppCompatActivity {
         //set_bottom_sheet();
         set_text_view();
 
-        edit.setOnClickListener(view -> {
-            Intent intent = new Intent(getApplicationContext(),EditEquipments.class);
-            intent.putExtra("name",name.getText().toString());
-            intent.putExtra("date",date.getText().toString());
-            intent.putExtra("price",price.getText().toString());
-            intent.putExtra("donor",donor.getText().toString());
-            intent.putExtra("qty",qty.getText().toString());
-            intent.putExtra("purpose",purpose.getText().toString());
-            intent.putExtra("room_no",getIntent().getStringExtra("room_no"));
-            startActivity(intent);
-        });
+        SharedPreferences sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        if(sh.getString("usertype","").equals("admin")) {
+            edit.setOnClickListener(view -> {
+                Intent intent = new Intent(getApplicationContext(), EditEquipments.class);
+                intent.putExtra("name", name.getText().toString());
+                intent.putExtra("department", getIntent().getStringExtra("department"));
+                intent.putExtra("date", date.getText().toString());
+                intent.putExtra("price", price.getText().toString());
+                intent.putExtra("donor", donor.getText().toString());
+                intent.putExtra("qty", qty.getText().toString());
+                intent.putExtra("purpose", purpose.getText().toString());
+                intent.putExtra("room_no", getIntent().getStringExtra("room_no"));
+                startActivity(intent);
+            });
+        }
+        else{
+            edit.setVisibility(View.GONE);
+        }
 
         pdf_button.setOnClickListener(view -> {
             view_pdf();
@@ -69,6 +77,7 @@ public class EquipmentDetails extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(),LabEquipmentsClass.class);
             intent.putExtra("name",name_txt);
             intent.putExtra("room_no",room_num);
+            intent.putExtra("department",getIntent().getStringExtra("department"));
             startActivity(intent);
             finish();
         });
@@ -79,6 +88,7 @@ public class EquipmentDetails extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(),LabEquipmentsClass.class);
                 intent.putExtra("name",name.getText().toString());
                 intent.putExtra("room_no",room_num);
+                intent.putExtra("department",getIntent().getStringExtra("department"));
                 startActivity(intent);
                 finish();
             }
@@ -92,10 +102,18 @@ public class EquipmentDetails extends AppCompatActivity {
         String college_name = sh.getString("college_name"," ");
         Intent intent = getIntent();
 
-        user_ref = FirebaseDatabase.getInstance().getReference("College or University").child(college_name).child(sh.getString("Dep_name"," "));
-        user_ref = user_ref.child("Lab Details")
-                .child(intent.getStringExtra("room_no"))
-                .child("Equipments").child(intent.getStringExtra("name"));
+        if(sh.getString("usertype","").equals("admin")){
+            user_ref = FirebaseDatabase.getInstance().getReference("College or University").child(college_name).child("Admin").child(getIntent().getStringExtra("department"));
+            user_ref = user_ref.child("Lab Details")
+                    .child(intent.getStringExtra("room_no"))
+                    .child("Equipments").child(intent.getStringExtra("name"));
+        }
+        else{
+            user_ref = FirebaseDatabase.getInstance().getReference("College or University").child(college_name).child("Admin").child(sh.getString("Dep_name"," "));
+            user_ref = user_ref.child("Lab Details")
+                    .child(intent.getStringExtra("room_no"))
+                    .child("Equipments").child(intent.getStringExtra("name"));
+        }
 
         user_ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -139,10 +157,19 @@ public class EquipmentDetails extends AppCompatActivity {
         room_num = intent.getStringExtra("room_no");
         //Log.d("room_num",room_num);
         name.setText(name_txt);
-        user_ref = FirebaseDatabase.getInstance().getReference("College or University")
-                .child(college_name).child(sh.getString("Dep_name"," ")).child("Lab Details")
-                .child(room_num)
-                .child("Equipments").child(name_txt);
+
+        if (sh.getString("usertype","").equals("admin")){
+            user_ref = FirebaseDatabase.getInstance().getReference("College or University")
+                    .child(college_name).child("Admin").child(intent.getStringExtra("department")).child("Lab Details")
+                    .child(room_num)
+                    .child("Equipments").child(name_txt);
+        }
+        else{
+            user_ref = FirebaseDatabase.getInstance().getReference("College or University")
+                    .child(college_name).child(sh.getString("Dep_name"," ")).child("Lab Details")
+                    .child(room_num)
+                    .child("Equipments").child(name_txt);
+        }
 
         user_ref.addValueEventListener(new ValueEventListener() {
             @Override

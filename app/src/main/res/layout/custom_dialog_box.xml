@@ -155,6 +155,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/est_date"
                     android:layout_margin="16dp"
+                    android:layout_marginTop="30dp"
                     app:boxCornerRadiusTopEnd="20dp"
                     app:boxCornerRadiusTopStart="20dp"
                     app:boxCornerRadiusBottomStart="20dp"
@@ -172,7 +173,7 @@
                         android:layout_height="wrap_content"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <Button
+                    <Button
                     android:id="@+id/doneButton"
                     android:layout_width="150dp"
                     android:layout_height="60dp"

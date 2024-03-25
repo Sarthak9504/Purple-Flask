@@ -1,19 +1,12 @@
 package com.example.dbms_lab_inventory;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,27 +21,21 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
-public class SignUp extends AppCompatActivity {
+public class SignUpAdmin extends AppCompatActivity {
 
     private TextInputEditText college_name;
     private TextInputEditText dep_email;
     private TextInputEditText state;
     private TextInputEditText city;
+    private TextInputEditText name;
     private TextInputEditText password;
     private TextInputEditText con_password;
     private TextInputEditText prn;
     private Button signUpBtn;
     private TextView signInBtn;
-    private AutoCompleteTextView autoCompleteTextView;
-    private ArrayAdapter<String> dep_list;
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference user_ref;
@@ -56,28 +43,29 @@ public class SignUp extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_sign_up_admin);
+
         init();
-        dep_dropdown();
 
         signInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SignUp.this.onClick(signInBtn);
+                SignUpAdmin.this.onClick(signInBtn);
             }
         });
 
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SignUp.this.onClick(signUpBtn);
+                SignUpAdmin.this.onClick(signUpBtn);
             }
         });
+
     }
 
     private void onClick(Object o){
         if(o.equals(signInBtn)){
-            startActivity(new Intent(SignUp.this,LoginActivity.class));
+            startActivity(new Intent(SignUpAdmin.this,LoginActivity.class));
         }
         else{
             if(checker()){
@@ -94,40 +82,31 @@ public class SignUp extends AppCompatActivity {
                             SharedPreferences.Editor myEdit = sharedPreferences.edit();
                             myEdit.putInt("isLogged", 1);
                             myEdit.putString("college_name", college_name.getText().toString().trim());
-                            myEdit.putString("Dep_name", autoCompleteTextView.getText().toString().trim());
-                            myEdit.putString("Dep_email", dep_email.getText().toString().trim());
+                            myEdit.putString("admin_email", dep_email.getText().toString().trim());
+                            myEdit.putString("admin_name", name.getText().toString().trim());
+                            myEdit.putString("admin_state", state.getText().toString().trim());
+                            myEdit.putString("admin_city", city.getText().toString().trim());
+                            myEdit.putString("admin_prn", prn.getText().toString().trim());
                             myEdit.putInt("Lab_count", 0);
                             myEdit.putInt("Equipment_count", 0);
                             myEdit.apply();
 
-                            Toast.makeText(SignUp.this, "User registered successfully", Toast.LENGTH_SHORT).show();
-
+                            Toast.makeText(SignUpAdmin.this, "User registered successfully", Toast.LENGTH_SHORT).show();
+                            Log.d("name",name.getText().toString());
                             firebaseDatabase = FirebaseDatabase.getInstance();
                             user_ref = firebaseDatabase.getReference("College or University");
-                            user_ref.child(college).child("students").child(autoCompleteTextView.getText().toString().trim()).child(Integer.parseInt(prn.getText().toString()) + "").setValue(new RBUtility(email, state_text, city_text,Integer.parseInt(prn.getText().toString())));
+                            user_ref.child(college).child("Admin").setValue(new AdminUtility(name.getText().toString(),email, state_text, city_text,prn.getText().toString()));
 
-                            startActivity(new Intent(SignUp.this, MainActivity.class));
+                            startActivity(new Intent(SignUpAdmin.this, AdminDashboard.class));
                             finish();
-                            }
-                         else {
-                            Toast.makeText(SignUp.this, "Registration Error", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(SignUpAdmin.this, "Registration Error", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
             }
         }
-    }
-
-    private void dep_dropdown(){
-        String[] list = {"Computer Engineering","EnTC Engineering","Mechanical Engineering","InC Engineering","Chemical Engineering"};
-        dep_list = new ArrayAdapter<>(this,R.layout.list_item,list);
-        autoCompleteTextView.setAdapter(dep_list);
-        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String item = dep_list.getItem(i);
-            }
-        });
     }
 
     private boolean checker(){
@@ -151,6 +130,11 @@ public class SignUp extends AppCompatActivity {
             city.requestFocus();
             return false;
         }
+        if(name.getText().toString().isEmpty()){
+            name.setError("Field cannot be empty");
+            name.requestFocus();
+            return false;
+        }
         if(password.getText().toString().isEmpty()){
             password.setError("Field cannot be empty");
             password.requestFocus();
@@ -164,11 +148,6 @@ public class SignUp extends AppCompatActivity {
         if(prn.getText().toString().isEmpty()){
             prn.setError("Field cannot be empty");
             prn.requestFocus();
-            return false;
-        }
-        if (autoCompleteTextView.getText().toString().isEmpty()){
-            autoCompleteTextView.setError("Department required");
-            autoCompleteTextView.requestFocus();
             return false;
         }
         else if(!dep_email.getText().toString().isEmpty()){
@@ -185,8 +164,8 @@ public class SignUp extends AppCompatActivity {
     }
 
     private boolean check_mail_vit(){
-        String mail = dep_email.getText().toString().trim();
-        if(!mail.substring(mail.length()-8).equals("vit.edu")){
+        String mail = dep_email.getText().toString();
+        if(!mail.substring(mail.length()-8).equals("vit.edu ")){
             dep_email.setError("Required Vit mail");
             dep_email.requestFocus();
             return false;
@@ -204,8 +183,7 @@ public class SignUp extends AppCompatActivity {
         con_password = findViewById(R.id.editTextCon_Pass);
         signUpBtn = findViewById(R.id.signUpButton);
         signInBtn = findViewById(R.id.signInBtn);
-        autoCompleteTextView = findViewById(R.id.auto_text_view);
+        name = findViewById(R.id.editTextName);
         prn = findViewById(R.id.editTextPRN);
     }
-
 }

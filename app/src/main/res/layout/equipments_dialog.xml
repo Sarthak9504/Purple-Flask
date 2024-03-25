@@ -197,11 +197,38 @@
                             android:layout_height="wrap_content"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/dropdown"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_below="@+id/purpose"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginTop="15dp"
+                        app:boxCornerRadiusTopEnd="20dp"
+                        app:boxCornerRadiusTopStart="20dp"
+                        app:boxCornerRadiusBottomStart="20dp"
+                        app:boxCornerRadiusBottomEnd="20dp"
+                        app:boxStrokeColor="@color/lavender"
+                        app:hintTextColor="@color/lavender"
+                        android:hint="Remark"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/auto_text_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:inputType="none"
+                            android:maxLines="1"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
                     <TextView
                         android:id="@+id/upload_pdf"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/purpose"
+                        android:layout_below="@+id/dropdown"
                         android:textColor="@color/lavender"
                         android:text="@string/upload_the_pdf_for_details"
                         android:layout_marginStart="20dp"
@@ -213,7 +240,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_below="@+id/purpose"
+                        android:layout_below="@+id/dropdown"
                         android:layout_marginEnd="20dp"
                         android:clickable="false"
                         android:focusable="false"/>

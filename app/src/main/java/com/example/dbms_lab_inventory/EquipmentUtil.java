@@ -7,6 +7,7 @@ public class EquipmentUtil {
     String donor;
     String qty;
     String url;
+    String remark;
 
     public EquipmentUtil(String date, String price, String purpose, String donor, String qty) {
         this.date = date;
@@ -16,13 +17,14 @@ public class EquipmentUtil {
         this.qty = qty;
     }
 
-    public EquipmentUtil(String date, String price, String purpose, String donor, String qty, String url) {
+    public EquipmentUtil(String date, String price, String purpose, String donor, String qty, String remark,String url) {
         this.date = date;
         this.price = price;
         this.purpose = purpose;
         this.donor = donor;
         this.qty = qty;
         this.url = url;
+        this.remark = remark;
     }
 
     public String getDate() {

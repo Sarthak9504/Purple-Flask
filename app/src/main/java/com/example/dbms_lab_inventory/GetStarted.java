@@ -18,7 +18,7 @@ public class GetStarted extends AppCompatActivity {
 
         startButton = findViewById(R.id.startButton);
         startButton.setOnClickListener(view -> {
-            Intent i = new Intent(GetStarted.this, LoginActivity.class);
+            Intent i = new Intent(GetStarted.this, ChoiceActivity.class);
             startActivity(i);
             finish();
         });

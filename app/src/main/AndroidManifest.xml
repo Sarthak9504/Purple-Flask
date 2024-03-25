@@ -16,6 +16,15 @@
         android:theme="@style/Theme.DBMS_Lab_Inventory"
         tools:targetApi="31">
         <activity
+            android:name=".AdminDashboard"
+            android:exported="false" />
+        <activity
+            android:name=".SignUpAdmin"
+            android:exported="false" />
+        <activity
+            android:name=".ChoiceActivity"
+            android:exported="false" />
+        <activity
             android:name=".EquipmentDetails"
             android:exported="false" />
         <activity

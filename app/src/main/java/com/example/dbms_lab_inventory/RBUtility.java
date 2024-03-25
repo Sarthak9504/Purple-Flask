@@ -4,12 +4,16 @@ public class RBUtility {
     String dep_id;
     String state;
     String city;
+    int PRN;
 
-    public RBUtility( String dep_id, String state, String city) {
+
+    public RBUtility( String dep_id, String state, String city, int PRN) {
         this.dep_id = dep_id;
         this.state = state;
         this.city = city;
+        this.PRN = PRN;
     }
+
     public String getDep_id() {
         return dep_id;
     }

@@ -2,6 +2,7 @@ package com.example.dbms_lab_inventory;
 
 import static android.content.ContentValues.TAG;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -25,6 +26,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -71,6 +75,7 @@ public class LabEquipmentsClass extends AppCompatActivity implements ItemClickLi
     FirebaseStorage storage;
     StorageReference storageRef;
     private AlertDialog alertDialog;
+    private AutoCompleteTextView remark;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,38 +85,77 @@ public class LabEquipmentsClass extends AppCompatActivity implements ItemClickLi
         init_dialog();
         add_lab_details();
         fill_list();
+        dep_dropdown();
 
-        pickPdfLauncher = registerForActivityResult(
-                new ActivityResultContracts.GetContent(),
-                uri -> {
-                    if (uri != null) {
-                        // Call the upload logic here
-                        uploadFile(uri);
-                    }
-                });
+        SharedPreferences sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        if(sh.getString("usertype","").equals("admin")) {
+            pickPdfLauncher = registerForActivityResult(
+                    new ActivityResultContracts.GetContent(),
+                    uri -> {
+                        if (uri != null) {
+                            // Call the upload logic here
+                            uploadFile(uri);
+                        }
+                    });
 
-        button.setOnClickListener(view -> {
-            customDialog.show();
-            checkBox.setChecked(false);
-        });
+            button.setOnClickListener(view -> {
+                customDialog.show();
+                checkBox.setChecked(false);
+            });
 
-        cancel.setOnClickListener(view -> customDialog.dismiss());
+            cancel.setOnClickListener(view -> customDialog.dismiss());
 
-        back.setOnClickListener(view -> customDialog.dismiss());
+            purchase_date.setOnClickListener(view -> date_picker());
 
-        purchase_date.setOnClickListener(view -> date_picker());
-
-        save.setOnClickListener(view -> {
-                if(checkBox.isChecked()) {
+            save.setOnClickListener(view -> {
+                if (checkBox.isChecked()) {
                     add_to_firebase();
-                }
-                else {
+                } else {
                     Toast.makeText(this, "Please upload file", Toast.LENGTH_SHORT).show();
                 }
+            });
+
+            upload_button.setOnClickListener(view -> pickPdfLauncher.launch("application/pdf"));
+        }
+        else{
+            button.setVisibility(View.GONE);
+        }
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LabEquipmentsClass.this,LabDetailsActivity.class);
+                intent.putExtra("department", getIntent().getStringExtra("department"));
+                intent.putExtra("Room_no", getIntent().getStringExtra("room_no"));
+                startActivity(intent);
+                finish();
+            }
         });
 
-        upload_button.setOnClickListener(view -> pickPdfLauncher.launch("application/pdf"));
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Intent intent = new Intent(LabEquipmentsClass.this,LabDetailsActivity.class);
+                intent.putExtra("department", getIntent().getStringExtra("department"));
+                intent.putExtra("Room_no", getIntent().getStringExtra("room_no"));
+                startActivity(intent);
+                finish();
+            }
+        };
+        LabEquipmentsClass.this.getOnBackPressedDispatcher().addCallback(LabEquipmentsClass.this,callback);
 
+    }
+
+    private void dep_dropdown(){
+        String[] list = {"Working","Not Working","Under Maintenance"};
+        ArrayAdapter<String> list_remark = new ArrayAdapter<>(this,R.layout.list_item,list);
+        remark.setAdapter(list_remark);
+        remark.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String item = list_remark.getItem(i);
+            }
+        });
     }
 
     private void fill_list(){
@@ -121,10 +165,18 @@ public class LabEquipmentsClass extends AppCompatActivity implements ItemClickLi
         Intent intent = getIntent();
         Log.d("college name",college_name);
 
-        user_ref = FirebaseDatabase.getInstance().getReference("College or University").child(college_name).child(sh.getString("Dep_name"," "));
-        user_ref = user_ref.child("Lab Details")
+        if(sh.getString("usertype","").equals("admin")){
+            user_ref = FirebaseDatabase.getInstance().getReference("College or University").child(college_name).child("Admin").child(intent.getStringExtra("department"));
+            user_ref = user_ref.child("Lab Details")
                     .child(intent.getStringExtra("room_no"))
                     .child("Equipments");
+        }
+        else{
+            user_ref = FirebaseDatabase.getInstance().getReference("College or University").child(college_name).child("Admin").child(sh.getString("Dep_name"," "));
+            user_ref = user_ref.child("Lab Details")
+                    .child(intent.getStringExtra("room_no"))
+                    .child("Equipments");
+        }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(LabEquipmentsClass.this));
 
@@ -209,11 +261,11 @@ public class LabEquipmentsClass extends AppCompatActivity implements ItemClickLi
             Intent intent = getIntent();
             Log.d("college name",college_name);
 
-            user_ref = FirebaseDatabase.getInstance().getReference("College or University").child(college_name).child(sh.getString("Dep_name"," "));
+            user_ref = FirebaseDatabase.getInstance().getReference("College or University").child(college_name).child("Admin").child(intent.getStringExtra("department"));
             user_ref.child("Lab Details")
                     .child(intent.getStringExtra("room_no"))
                     .child("Equipments").child(edit_to_string(equip_name))
-                    .setValue(new EquipmentUtil(edit_to_string(purchase_date),edit_to_string(purchase_price),edit_to_string(purpose),edit_to_string(donor),edit_to_string(qty),url));
+                    .setValue(new EquipmentUtil(edit_to_string(purchase_date),edit_to_string(purchase_price),edit_to_string(purpose),edit_to_string(donor),edit_to_string(qty),remark.getText().toString(),url));
 
             SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", Context.MODE_PRIVATE);
             SharedPreferences.Editor myEdit = sharedPreferences.edit();
@@ -263,6 +315,11 @@ public class LabEquipmentsClass extends AppCompatActivity implements ItemClickLi
             donor.requestFocus();
             return false;
         }
+        if(remark.getText().toString().isEmpty()){
+            remark.setError("Field cannot be empty");
+            remark.requestFocus();
+            return false;
+        }
         return true;
     }
 
@@ -292,6 +349,7 @@ public class LabEquipmentsClass extends AppCompatActivity implements ItemClickLi
         cancel = customDialog.findViewById(R.id.cancelButton);
         upload_button = customDialog.findViewById(R.id.upload_pdf);
         checkBox = customDialog.findViewById(R.id.checkbox);
+        remark = customDialog.findViewById(R.id.auto_text_view);
         checkBox.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.lavender)));
         checkBox.setChecked(false);
     }
@@ -316,55 +374,59 @@ public class LabEquipmentsClass extends AppCompatActivity implements ItemClickLi
         Intent intent1 = getIntent();
         intent.putExtra("name",item.name);
         intent.putExtra("room_no", intent1.getStringExtra("room_no"));
+        intent.putExtra("department", intent1.getStringExtra("department"));
         Toast.makeText(this, "room no" + intent1.getStringExtra("room_no"), Toast.LENGTH_SHORT).show();
         startActivity(intent);
     }
 
     @Override
     public void onLongPress(EquipmentItem item) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(LabEquipmentsClass.this);
-        builder.setMessage("Are you sure you want to delete this Equipment");
-        builder.setTitle("Alert !");
-        builder.setCancelable(false);
-        Intent intent = getIntent();
+        SharedPreferences sh1 = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        if(sh1.getString("usertype","").equals("admin")) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(LabEquipmentsClass.this);
+            builder.setMessage("Are you sure you want to delete this Equipment");
+            builder.setTitle("Alert !");
+            builder.setCancelable(false);
+            Intent intent = getIntent();
 
-        builder.setPositiveButton("Yes", (dialog, which) -> {
-            list.clear();
-            SharedPreferences sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
-            String college_name = sh.getString("college_name"," ");
+            builder.setPositiveButton("Yes", (dialog, which) -> {
+                list.clear();
+                SharedPreferences sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+                String college_name = sh.getString("college_name", " ");
 
-            user_ref = FirebaseDatabase.getInstance().getReference("College or University").child(college_name)
-                    .child(sh.getString("Dep_name"," ")).child("Lab Details")
-                    .child(intent.getStringExtra("room_no"))
-                    .child("Equipments").child(edit_to_string(equip_name));
+                user_ref = FirebaseDatabase.getInstance().getReference("College or University").child(college_name).child("Admin")
+                        .child(intent.getStringExtra("department")).child("Lab Details")
+                        .child(intent.getStringExtra("room_no"))
+                        .child("Equipments").child(edit_to_string(equip_name));
 
-            user_ref.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if(snapshot.exists()) {
-                        for(DataSnapshot snapshot1 : snapshot.getChildren()) {
-                            String key = snapshot1.getKey();
-                            if(key.equals(item.name)){
-                                snapshot1.getRef().removeValue();
-                                Toast.makeText(LabEquipmentsClass.this, "Equipment deleted successfully", Toast.LENGTH_SHORT).show();
-                                break;
+                user_ref.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                                String key = snapshot1.getKey();
+                                if (key.equals(item.name)) {
+                                    snapshot1.getRef().removeValue();
+                                    Toast.makeText(LabEquipmentsClass.this, "Equipment deleted successfully", Toast.LENGTH_SHORT).show();
+                                    break;
+                                }
                             }
                         }
                     }
-                }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-                }
+                    }
+                });
             });
-        });
 
-        builder.setNegativeButton("No", (dialog, which) -> {
-            dialog.cancel();
-        });
+            builder.setNegativeButton("No", (dialog, which) -> {
+                dialog.cancel();
+            });
 
-        alertDialog = builder.create();
-        alertDialog.show();
+            alertDialog = builder.create();
+            alertDialog.show();
+        }
     }
 }

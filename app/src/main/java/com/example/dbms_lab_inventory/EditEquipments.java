@@ -68,6 +68,7 @@ public class EditEquipments extends AppCompatActivity {
                     Intent intent = new Intent(EditEquipments.this,EquipmentDetails.class);
                     intent.putExtra("name",name.getText().toString());
                     intent.putExtra("room_no",getIntent().getStringExtra("room_no"));
+                    intent.putExtra("department",getIntent().getStringExtra("department"));
                     startActivity(intent);
                     finish();
                 }
@@ -80,6 +81,7 @@ public class EditEquipments extends AppCompatActivity {
                 Intent intent = new Intent(EditEquipments.this,EquipmentDetails.class);
                 intent.putExtra("name",name.getText().toString());
                 intent.putExtra("room_no",getIntent().getStringExtra("room_no"));
+                intent.putExtra("department",getIntent().getStringExtra("department"));
                 startActivity(intent);
                 finish();
             }
@@ -95,6 +97,7 @@ public class EditEquipments extends AppCompatActivity {
                 discard_dialog.setOnClickListener(view -> {
                     Intent intent = new Intent(EditEquipments.this,EquipmentDetails.class);
                     intent.putExtra("room_no",getIntent().getStringExtra("room_no"));
+                    intent.putExtra("department",getIntent().getStringExtra("department"));
                     intent.putExtra("name",name.getText().toString());
                     startActivity(intent);
                     finish();
@@ -109,6 +112,7 @@ public class EditEquipments extends AppCompatActivity {
         back_cross.setOnClickListener(view -> {
             Intent intent = new Intent(EditEquipments.this,EquipmentDetails.class);
             intent.putExtra("room_no",getIntent().getStringExtra("room_no"));
+            intent.putExtra("department",getIntent().getStringExtra("department"));
             intent.putExtra("name",name.getText().toString());
             startActivity(intent);
             finish();
@@ -119,7 +123,7 @@ public class EditEquipments extends AppCompatActivity {
         SharedPreferences sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
         String college_name = sh.getString("college_name"," ");
         DatabaseReference user_ref = FirebaseDatabase.getInstance().getReference("College or University")
-                .child(college_name).child(sh.getString("Dep_name"," ")).child("Lab Details")
+                .child(college_name).child("Admin").child(getIntent().getStringExtra("department")).child("Lab Details")
                 .child(getIntent().getStringExtra("room_no")).child("Equipments");
 
         user_ref.addValueEventListener(new ValueEventListener() {
@@ -154,7 +158,7 @@ public class EditEquipments extends AppCompatActivity {
         SharedPreferences sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
         String college_name = sh.getString("college_name"," ");
         DatabaseReference user_ref = FirebaseDatabase.getInstance().getReference("College or University")
-                .child(college_name).child(sh.getString("Dep_name"," ")).child("Lab Details")
+                .child(college_name).child("Admin").child(getIntent().getStringExtra("department")).child("Lab Details")
                 .child(getIntent().getStringExtra("room_no")).child("Equipments").child(name_txt);
         //LabDetailUtility details = new LabDetailUtility(floor.getText().toString(),lab_name.getText().toString(),est_date.getText().toString(),purpose.getText().toString());
         user_ref.child("date").setValue(date.getText().toString());

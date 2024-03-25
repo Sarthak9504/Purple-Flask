@@ -27,11 +27,13 @@ public class SplashScreen extends AppCompatActivity {
                 if (loggedIn == -1) {
                     myIntent = new Intent(SplashScreen.this, Navigation.class);
                 } else {
-                    SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor myEdit = sharedPreferences.edit();
-                    myEdit.putBoolean("isFirst",true);
-                    myEdit.apply();
-                    myIntent = new Intent(SplashScreen.this, MainActivity.class);
+                    SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+                    if(sharedPreferences.getString("usertype","").equals("student")) {
+                        myIntent = new Intent(SplashScreen.this, MainActivity.class);
+                    }
+                    else{
+                        myIntent = new Intent(SplashScreen.this,AdminDashboard.class);
+                    }
                     myIntent.putExtra("newLogin", false);
                 }
                 SplashScreen.this.startActivity(myIntent);

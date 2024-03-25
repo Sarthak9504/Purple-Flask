@@ -55,6 +55,7 @@ public class EditLabDetails extends AppCompatActivity {
         discard.setOnClickListener(view -> {
             Intent intent = new Intent(EditLabDetails.this,LabDetailsActivity.class);
             intent.putExtra("Room_no",room_no);
+            intent.putExtra("department",getIntent().getStringExtra("department"));
             startActivity(intent);
             finish();
         });
@@ -69,6 +70,7 @@ public class EditLabDetails extends AppCompatActivity {
                 discard_dialog.setOnClickListener(view -> {
                     Intent intent = new Intent(EditLabDetails.this,LabDetailsActivity.class);
                     intent.putExtra("Room_no",room_no);
+                    intent.putExtra("department",getIntent().getStringExtra("department"));
                     startActivity(intent);
                     finish();
                 });
@@ -90,6 +92,7 @@ public class EditLabDetails extends AppCompatActivity {
                 }
                 Intent intent = new Intent(EditLabDetails.this,LabDetailsActivity.class);
                 intent.putExtra("Room_no",room_num.getText().toString());
+                intent.putExtra("department",getIntent().getStringExtra("department"));
                 startActivity(intent);
                 finish();
             }
@@ -98,6 +101,7 @@ public class EditLabDetails extends AppCompatActivity {
         back_cross.setOnClickListener(view -> {
             Intent intent = new Intent(EditLabDetails.this,LabDetailsActivity.class);
             intent.putExtra("Room_no",room_num.getText().toString());
+            intent.putExtra("department",getIntent().getStringExtra("department"));
             startActivity(intent);
             finish();
         });
@@ -151,7 +155,7 @@ public class EditLabDetails extends AppCompatActivity {
     private void update_child(){
         SharedPreferences sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
         String college_name = sh.getString("college_name"," ");
-        DatabaseReference user_ref = FirebaseDatabase.getInstance().getReference("College or University").child(college_name).child(sh.getString("Dep_name"," ")).child("Lab Details").child(room_num.getText().toString());
+        DatabaseReference user_ref = FirebaseDatabase.getInstance().getReference("College or University").child(college_name).child("Admin").child(getIntent().getStringExtra("department")).child("Lab Details").child(room_num.getText().toString());
         //LabDetailUtility details = new LabDetailUtility(floor.getText().toString(),lab_name.getText().toString(),est_date.getText().toString(),purpose.getText().toString());
         user_ref.child("floor").setValue(floor.getText().toString());
         user_ref.child("name").setValue(lab_name.getText().toString());
@@ -162,7 +166,7 @@ public class EditLabDetails extends AppCompatActivity {
     private void change_room(){
         SharedPreferences sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
         String college_name = sh.getString("college_name"," ");
-        DatabaseReference user_ref = FirebaseDatabase.getInstance().getReference("College or University").child(college_name).child(sh.getString("Dep_name"," ")).child("Lab Details");
+        DatabaseReference user_ref = FirebaseDatabase.getInstance().getReference("College or University").child(college_name).child("Admin").child(getIntent().getStringExtra("department")).child("Lab Details");
 
         user_ref.addValueEventListener(new ValueEventListener() {
             @Override

@@ -79,12 +79,17 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
                         SharedPreferences.Editor myEdit = sharedPreferences.edit();
                         myEdit.putInt("isLogged",1);
-                        myEdit.putBoolean("isFirst",true);
+                        //myEdit.putBoolean("isFirst",true);
                         myEdit.apply();
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        intent.putExtra("newLogin", false);
-                        startActivity(intent);
-                        finish();
+                        if(sharedPreferences.getString("usertype","").equals("student")) {
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            intent.putExtra("newLogin", false);
+                            startActivity(intent);
+                            finish();
+                        }
+                        else{
+                            startActivity(new Intent(LoginActivity.this, AdminDashboard.class));
+                        }
                     } else {
                         Toast.makeText(LoginActivity.this, "User not registered", Toast.LENGTH_SHORT).show();
                     }
@@ -92,7 +97,13 @@ public class LoginActivity extends AppCompatActivity {
             });
         }
         else {
-            startActivity(new Intent(LoginActivity.this,SignUp.class));
+            SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+            if(sharedPreferences.getString("usertype","").equals("student")){
+                startActivity(new Intent(LoginActivity.this,SignUp.class));
+            }
+            else{
+                startActivity(new Intent(LoginActivity.this,SignUpAdmin.class));
+            }
         }
     }
 
