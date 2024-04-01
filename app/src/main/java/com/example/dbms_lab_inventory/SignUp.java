@@ -29,12 +29,16 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class SignUp extends AppCompatActivity {
 
@@ -119,7 +123,31 @@ public class SignUp extends AppCompatActivity {
     }
 
     private void dep_dropdown(){
-        String[] list = {"Computer Engineering","EnTC Engineering","Mechanical Engineering","InC Engineering","Chemical Engineering"};
+        SharedPreferences sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        String college_name = sh.getString("college_name"," ");
+        ArrayList<String> list = new ArrayList<>();
+        user_ref = FirebaseDatabase.getInstance().getReference("College or University");
+        user_ref = user_ref.child(college_name).child("Admin");
+
+        user_ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()) {
+                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                        String key = snapshot1.getKey();
+                        if (!key.equals("city") && !key.equals("name") && !key.equals("mail") && !key.equals("state")) {
+                            list.add(key);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         dep_list = new ArrayAdapter<>(this,R.layout.list_item,list);
         autoCompleteTextView.setAdapter(dep_list);
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

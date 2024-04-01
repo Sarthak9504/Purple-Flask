@@ -189,6 +189,33 @@
                         android:inputType="text"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dropdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_below="@+id/purpose"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="15dp"
+                    app:boxCornerRadiusTopEnd="20dp"
+                    app:boxCornerRadiusTopStart="20dp"
+                    app:boxCornerRadiusBottomStart="20dp"
+                    app:boxCornerRadiusBottomEnd="20dp"
+                    app:boxStrokeColor="@color/lavender"
+                    app:hintTextColor="@color/lavender"
+                    android:hint="Remark"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/auto_text_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="none"
+                        android:maxLines="1"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
                 <Button
                     android:id="@+id/saveButton"
                     android:layout_width="150dp"
@@ -201,7 +228,7 @@
                     android:layout_marginTop="30dp"
                     android:layout_alignParentEnd="true"
                     app:cornerRadius = "12dp"
-                    android:layout_below="@+id/purpose"/>
+                    android:layout_below="@+id/dropdown"/>
 
                 <Button
                     android:id="@+id/discardButton"
@@ -217,7 +244,7 @@
                     android:layout_marginTop="30dp"
                     android:layout_alignParentStart="true"
                     app:cornerRadius = "12dp"
-                    android:layout_below="@+id/purpose"/>
+                    android:layout_below="@+id/dropdown"/>
             </RelativeLayout>
         </ScrollView>
 

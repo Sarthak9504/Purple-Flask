@@ -11,6 +11,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,6 +35,7 @@ public class EditEquipments extends AppCompatActivity {
     private TextInputEditText qty;
     private TextInputEditText donor;
     private TextInputEditText purpose;
+    private AutoCompleteTextView remark;
     private Button discard;
     private Button save;
     private Button discard_dialog;
@@ -48,6 +52,7 @@ public class EditEquipments extends AppCompatActivity {
         init();
         init_dialog();
         set_edit_text();
+        dep_dropdown();
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,6 +124,18 @@ public class EditEquipments extends AppCompatActivity {
         });
     }
 
+    private void dep_dropdown(){
+        String[] list = {"Working","Not Working","Under Maintenance"};
+        ArrayAdapter<String> list_remark = new ArrayAdapter<>(this,R.layout.list_item,list);
+        remark.setAdapter(list_remark);
+        remark.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String item = list_remark.getItem(i);
+            }
+        });
+    }
+
     private void change_room(){
         SharedPreferences sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
         String college_name = sh.getString("college_name"," ");
@@ -146,7 +163,7 @@ public class EditEquipments extends AppCompatActivity {
             }
         });
 
-        EquipmentUtil details = new EquipmentUtil(edit_to_string(date),edit_to_string(price),edit_to_string(purpose),edit_to_string(donor),edit_to_string(qty));
+        EquipmentUtil details = new EquipmentUtil(edit_to_string(date),edit_to_string(price),edit_to_string(purpose),edit_to_string(donor),edit_to_string(qty),remark.getText().toString());
         user_ref.child(name.getText().toString()).setValue(details);
     }
 
@@ -166,6 +183,7 @@ public class EditEquipments extends AppCompatActivity {
         user_ref.child("price").setValue(price.getText().toString());
         user_ref.child("purpose").setValue(purpose.getText().toString());
         user_ref.child("qty").setValue(qty.getText().toString());
+        user_ref.child("remark").setValue(remark.getText().toString());
     }
 
     private boolean checker(){
@@ -251,6 +269,7 @@ public class EditEquipments extends AppCompatActivity {
         qty = findViewById(R.id.qty_text);
         donor = findViewById(R.id.donor_text);
         purpose = findViewById(R.id.purpose_edit_text);
+        remark = findViewById(R.id.auto_text_view);
         discard = findViewById(R.id.discardButton);
         save = findViewById(R.id.saveButton);
         back_cross = findViewById(R.id.back_arrow);

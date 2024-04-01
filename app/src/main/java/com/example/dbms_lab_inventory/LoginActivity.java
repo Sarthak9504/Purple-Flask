@@ -130,8 +130,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean check_mail_vit(){
-        String mail = editTextDep_id.getText().toString();
-        if(!mail.substring(mail.length()-8).equals("vit.edu ")){
+        String mail = editTextDep_id.getText().toString().trim();
+        if(!mail.substring(mail.length()-8).equals("vit.edu")){
             editTextDep_id.setError("Required Vit mail");
             editTextDep_id.requestFocus();
             return false;

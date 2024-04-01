@@ -37,6 +37,7 @@ public class EquipmentDetails extends AppCompatActivity {
     private TextView donor;
     private TextView qty;
     private TextView purpose;
+    private TextView remark;
     private Button pdf_button;
     private DatabaseReference user_ref;
     private String name_txt;
@@ -103,7 +104,7 @@ public class EquipmentDetails extends AppCompatActivity {
         Intent intent = getIntent();
 
         if(sh.getString("usertype","").equals("admin")){
-            user_ref = FirebaseDatabase.getInstance().getReference("College or University").child(college_name).child("Admin").child(getIntent().getStringExtra("department"));
+            user_ref = FirebaseDatabase.getInstance().getReference("College or University").child(college_name).child("Admin").child(intent.getStringExtra("department"));
             user_ref = user_ref.child("Lab Details")
                     .child(intent.getStringExtra("room_no"))
                     .child("Equipments").child(intent.getStringExtra("name"));
@@ -195,6 +196,8 @@ public class EquipmentDetails extends AppCompatActivity {
                                 break;
                             case "qty":
                                 qty.setText(val);
+                            case "remark":
+                                remark.setText(val);
                         }
                     }
                 }
@@ -217,6 +220,7 @@ public class EquipmentDetails extends AppCompatActivity {
         donor = findViewById(R.id.donor_text);
         qty = findViewById(R.id.qty_text);
         purpose = findViewById(R.id.purpose_text);
+        remark = findViewById(R.id.remark_text);
         pdf_button = findViewById(R.id.pdf_button);
     }
 }
