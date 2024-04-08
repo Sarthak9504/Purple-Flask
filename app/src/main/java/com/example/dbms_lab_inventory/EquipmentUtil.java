@@ -9,14 +9,14 @@ public class EquipmentUtil {
     String url;
     String remark;
 
-    public EquipmentUtil(String date, String price, String purpose, String donor, String qty, String remark) {
-        this.date = date;
-        this.price = price;
-        this.purpose = purpose;
-        this.donor = donor;
-        this.qty = qty;
-        this.remark = remark;
-    }
+//    public EquipmentUtil(String date, String price, String purpose, String donor, String qty, String remark) {
+//        this.date = date;
+//        this.price = price;
+//        this.purpose = purpose;
+//        this.donor = donor;
+//        this.qty = qty;
+//        this.remark = remark;
+//    }
 
     public EquipmentUtil(String date, String price, String purpose, String donor, String qty, String remark,String url) {
         this.date = date;
@@ -24,8 +24,8 @@ public class EquipmentUtil {
         this.purpose = purpose;
         this.donor = donor;
         this.qty = qty;
-        this.url = url;
         this.remark = remark;
+        this.url = url;
     }
 
     public String getDate() {

@@ -123,30 +123,8 @@ public class SignUp extends AppCompatActivity {
     }
 
     private void dep_dropdown(){
-        SharedPreferences sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
-        String college_name = sh.getString("college_name"," ");
-        ArrayList<String> list = new ArrayList<>();
-        user_ref = FirebaseDatabase.getInstance().getReference("College or University");
-        user_ref = user_ref.child(college_name).child("Admin");
-
-        user_ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()) {
-                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                        String key = snapshot1.getKey();
-                        if (!key.equals("city") && !key.equals("name") && !key.equals("mail") && !key.equals("state")) {
-                            list.add(key);
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        //SharedPreferences sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        String[] list = {"Computer Engineering","Mechanical Engineering","InC Engineering","EnTC Engineering","Chemical Engineering"};
 
         dep_list = new ArrayAdapter<>(this,R.layout.list_item,list);
         autoCompleteTextView.setAdapter(dep_list);
@@ -199,11 +177,11 @@ public class SignUp extends AppCompatActivity {
             autoCompleteTextView.requestFocus();
             return false;
         }
-        else if(!dep_email.getText().toString().isEmpty()){
-            if(!check_mail_vit()){
-                return false;
-            }
-        }
+//        else if(!dep_email.getText().toString().isEmpty()){
+//            if(!check_mail_vit()){
+//                return false;
+//            }
+//        }
         else if(!password.getText().toString().equals(con_password.getText().toString())){
             con_password.setError("Confirm password should be same as password");
             con_password.requestFocus();
@@ -212,15 +190,15 @@ public class SignUp extends AppCompatActivity {
         return true;
     }
 
-    private boolean check_mail_vit(){
-        String mail = dep_email.getText().toString().trim();
-        if(!mail.substring(mail.length()-8).equals("vit.edu")){
-            dep_email.setError("Required Vit mail");
-            dep_email.requestFocus();
-            return false;
-        }
-        return true;
-    }
+//    private boolean check_mail_vit(){
+//        String mail = dep_email.getText().toString().trim();
+//        if(!mail.endsWith("vit.edu")){
+//            dep_email.setError("Required Vit mail");
+//            dep_email.requestFocus();
+//            return false;
+//        }
+//        return true;
+//    }
 
 
     private void init(){

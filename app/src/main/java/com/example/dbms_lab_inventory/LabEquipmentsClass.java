@@ -18,14 +18,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -45,7 +49,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -76,6 +88,7 @@ public class LabEquipmentsClass extends AppCompatActivity implements ItemClickLi
     StorageReference storageRef;
     private AlertDialog alertDialog;
     private AutoCompleteTextView remark;
+    private Path path;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +122,7 @@ public class LabEquipmentsClass extends AppCompatActivity implements ItemClickLi
 
             save.setOnClickListener(view -> {
                 if (checkBox.isChecked()) {
+                    generate_qr();
                     add_to_firebase();
                 } else {
                     Toast.makeText(this, "Please upload file", Toast.LENGTH_SHORT).show();
@@ -144,6 +158,39 @@ public class LabEquipmentsClass extends AppCompatActivity implements ItemClickLi
         };
         LabEquipmentsClass.this.getOnBackPressedDispatcher().addCallback(LabEquipmentsClass.this,callback);
 
+    }
+
+    private void generate_qr(){
+        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+        try {
+            BitMatrix bitMatrix = multiFormatWriter.encode(url, BarcodeFormat.QR_CODE, 350, 350);
+            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+            Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+            saveDrawing(bitmap);
+        } catch (WriterException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void saveDrawing(Bitmap bitmap) {
+        String root = Environment.getExternalStorageDirectory().toString();
+        Log.d("path",root);
+        File myDir = new File(root + "/EquipmentQR/");
+        if (!myDir.exists()) {
+            myDir.mkdirs();
+        }
+        File file = new File (myDir, equip_name.getText().toString().trim() + ".png");
+        if (!file.exists()) {
+            try {
+                FileOutputStream out = new FileOutputStream(file);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                out.flush();
+                out.close();
+                Toast.makeText(this, "QR saved successfully", Toast.LENGTH_SHORT).show();
+            } catch (IOException e) {
+                Log.e("Error",e.toString());
+            }
+        }
     }
 
     private void dep_dropdown(){
@@ -259,7 +306,7 @@ public class LabEquipmentsClass extends AppCompatActivity implements ItemClickLi
             SharedPreferences sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
             String college_name = sh.getString("college_name"," ");
             Intent intent = getIntent();
-            Log.d("college name",college_name);
+            Log.d("remark",remark.getText().toString());
 
             user_ref = FirebaseDatabase.getInstance().getReference("College or University").child(college_name).child("Admin").child(intent.getStringExtra("department"));
             user_ref.child("Lab Details")
@@ -357,6 +404,7 @@ public class LabEquipmentsClass extends AppCompatActivity implements ItemClickLi
         back = findViewById(R.id.back_arrow);
         button = findViewById(R.id.floating_button);
         recyclerView = findViewById(R.id.recycler_view);
+        path = new Path();
         list = new ArrayList<>();
     }
 

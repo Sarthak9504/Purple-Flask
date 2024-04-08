@@ -163,7 +163,7 @@ public class EditEquipments extends AppCompatActivity {
             }
         });
 
-        EquipmentUtil details = new EquipmentUtil(edit_to_string(date),edit_to_string(price),edit_to_string(purpose),edit_to_string(donor),edit_to_string(qty),remark.getText().toString());
+        EquipmentUtil details = new EquipmentUtil(edit_to_string(date),edit_to_string(price),edit_to_string(purpose),edit_to_string(donor),edit_to_string(qty),remark.getText().toString()," ");
         user_ref.child(name.getText().toString()).setValue(details);
     }
 
