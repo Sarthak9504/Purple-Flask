@@ -150,11 +150,11 @@ public class SignUpAdmin extends AppCompatActivity {
             prn.requestFocus();
             return false;
         }
-        else if(!dep_email.getText().toString().isEmpty()){
-            if(!check_mail_vit()){
-                return false;
-            }
-        }
+//        else if(!dep_email.getText().toString().isEmpty()){
+//            if(!check_mail_vit()){
+//                return false;
+//            }
+//        }
         else if(!password.getText().toString().equals(con_password.getText().toString())){
             con_password.setError("Confirm password should be same as password");
             con_password.requestFocus();
@@ -163,15 +163,15 @@ public class SignUpAdmin extends AppCompatActivity {
         return true;
     }
 
-    private boolean check_mail_vit(){
-        String mail = dep_email.getText().toString();
-        if(!mail.substring(mail.length()-8).equals("vit.edu ")){
-            dep_email.setError("Required Vit mail");
-            dep_email.requestFocus();
-            return false;
-        }
-        return true;
-    }
+//    private boolean check_mail_vit(){
+//        String mail = dep_email.getText().toString().trim();
+//        if(!mail.substring(mail.length()-8).equals("vit.edu")){
+//            dep_email.setError("Required Vit mail");
+//            dep_email.requestFocus();
+//            return false;
+//        }
+//        return true;
+//    }
 
 
     private void init(){

@@ -184,6 +184,7 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
 
             }
         });
+
     }
 
     private void add_data_to_firebase(){

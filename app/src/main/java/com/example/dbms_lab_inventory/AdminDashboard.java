@@ -118,7 +118,7 @@ public class AdminDashboard extends AppCompatActivity implements ItemClickListen
             SharedPreferences sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
             firebaseDatabase = FirebaseDatabase.getInstance();
             user_ref = firebaseDatabase.getReference("College or University");
-            user_ref.child(sh.getString("college_name"," ")).child("Admin").child(dep_name.getText().toString()).setValue(true);
+            user_ref.child(sh.getString("college_name"," ")).child("Admin").child(dep_name.getText().toString().trim()).setValue(true);
             customDialog.dismiss();
         }
     }
@@ -178,7 +178,7 @@ public class AdminDashboard extends AppCompatActivity implements ItemClickListen
     @Override
     public void onClick(DepItem labItem) {
         Intent intent = new Intent(AdminDashboard.this,MainActivity.class);
-        intent.putExtra("department",labItem.getDep_name());
+        intent.putExtra("department",labItem.getDep_name().trim());
         Log.d("department",labItem.getDep_name());
         startActivity(intent);
     }
@@ -202,7 +202,7 @@ public class AdminDashboard extends AppCompatActivity implements ItemClickListen
                     if(snapshot.exists()) {
                         for(DataSnapshot snapshot1 : snapshot.getChildren()) {
                             String key = snapshot1.getKey();
-                            if(key.equals(labItem.getDep_name())){
+                            if(key.equals(labItem.getDep_name().trim())){
                                 snapshot1.getRef().removeValue();
                                 break;
                             }

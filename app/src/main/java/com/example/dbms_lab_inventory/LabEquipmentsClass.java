@@ -307,12 +307,12 @@ public class LabEquipmentsClass extends AppCompatActivity implements ItemClickLi
             String college_name = sh.getString("college_name"," ");
             Intent intent = getIntent();
             Log.d("remark",remark.getText().toString());
-
+            String rem = remark.getText().toString().trim();
             user_ref = FirebaseDatabase.getInstance().getReference("College or University").child(college_name).child("Admin").child(intent.getStringExtra("department"));
             user_ref.child("Lab Details")
                     .child(intent.getStringExtra("room_no"))
                     .child("Equipments").child(edit_to_string(equip_name))
-                    .setValue(new EquipmentUtil(edit_to_string(purchase_date),edit_to_string(purchase_price),edit_to_string(purpose),edit_to_string(donor),edit_to_string(qty),remark.getText().toString(),url));
+                    .setValue(new EquipmentUtil(edit_to_string(purchase_date),edit_to_string(purchase_price),edit_to_string(purpose),edit_to_string(donor),edit_to_string(qty),rem,url));
 
             SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", Context.MODE_PRIVATE);
             SharedPreferences.Editor myEdit = sharedPreferences.edit();
