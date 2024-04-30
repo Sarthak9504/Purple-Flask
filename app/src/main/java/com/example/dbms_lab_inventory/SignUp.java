@@ -53,7 +53,7 @@ public class SignUp extends AppCompatActivity {
     private TextView signInBtn;
     private AutoCompleteTextView autoCompleteTextView;
     private ArrayAdapter<String> dep_list;
-    private FirebaseAuth firebaseAuth;
+    private +FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference user_ref;
 
