@@ -37,7 +37,7 @@ Lab Inventory Management solutions using `firebase`
 4. `CRUD` operations can be performed by the college admin on labs and lab equipments the images are 1. `Creating` Lab 2. `Reading` Lab details 3. `Editing` Lab details 4. `Deleting` the Lab.
    - <div style="display: flex; gap: 10px; margin-top: 10px;">
         <img src="https://github.com/Sarthak9504/Purple-Flask/blob/master/Purple-Flask/Admin/WhatsApp%20Image%202024-05-28%20at%2022.20.35_7e86aad5.jpg" alt="Creating a Lab" width="200" height="400">
-        <img src="https://github.com/Sarthak9504/Purple-Flask/blob/master/Purple-Flask/WhatsApp%20Image%202024-05-28%20at%2022.27.40_8cade6ec.jpg" alt="Reading Lab details" width="200" height="400">
+        <img src="https://github.com/Sarthak9504/Purple-Flask/blob/master/Purple-Flask/Reading_lab.jpg" alt="Reading Lab details" width="200" height="400">
         <img src="https://github.com/Sarthak9504/Purple-Flask/blob/master/Purple-Flask/Admin_edit.jpg" alt="Editing lab details" width="200" height="400">
         <img src="https://github.com/Sarthak9504/Purple-Flask/blob/master/Purple-Flask/Admin/Admin_delete.jpg" alt="Deleting a lab" width="200" height="400">
     </div>
