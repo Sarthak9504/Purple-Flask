@@ -1,0 +1,29 @@
+name: Update Last Commit Badge
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-last-commit-badge:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Get last commit date
+      id: get_commit_date
+      run: |
+        last_commit_date=$(git log -1 --format=%cd --date=short)
+        echo "last_commit_date=${last_commit_date}" >> $GITHUB_ENV
+
+    - name: Update badge
+      uses: einaregilsson/update-badge@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        label: last commit
+        message: ${{ env.last_commit_date }}
+        color: green
+        path: README.md
