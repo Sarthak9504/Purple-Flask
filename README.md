@@ -69,6 +69,7 @@ Lab Inventory Management solutions using `firebase`
   - Allow the **Storage Permissions** as it requires for uploading the documents.
   - Uploading documents takes time if **INTERNET** is slow.
   - Do not clear the app's **cache**.
+  - The application is currently available for android version 11 and above.
 
 ## Instructions for contributing to the project
   - Create an issue or look for an existing issue.
