@@ -3,7 +3,7 @@
 Managing Lab inventory made easy!! 🧪
 
 ![APK Size](https://img.shields.io/static/v1?label=code%20size&message=16,048%20KB&color=blue&logo=github)
-![Last Commit](https://img.shields.io/static/v1?label=Last%20Commit&message=28%20May&color=red&logo=git)
+![Last Commit](https://img.shields.io/static/v1?label=Last%20Commit&message=9%20June&color=red&logo=git)
 ![Last Commit](https://img.shields.io/static/v1?label=Language&message=Java&color=blue)
 ![Android Studio](https://img.shields.io/badge/IDE-Android%20Studio-green?logo=android-studio)
 
