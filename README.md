@@ -3,7 +3,7 @@
 Managing Lab inventory made easy!! 🧪
 
 ![APK Size](https://img.shields.io/static/v1?label=code%20size&message=16,048%20KB&color=blue&logo=github)
-![Last Commit](https://img.shields.io/static/v1?label=Last%20Commit&message=9%20June&color=red&logo=git)
+![Last Commit](https://img.shields.io/static/v1?label=Last%20Commit&message=11%20June&color=red&logo=git)
 ![Last Commit](https://img.shields.io/static/v1?label=Language&message=Java&color=blue)
 ![Android Studio](https://img.shields.io/badge/IDE-Android%20Studio-green?logo=android-studio)
 
@@ -84,6 +84,10 @@ Lab Inventory Management solutions using `firebase`
     git push origin main
   - Create a Pull request.
   - Thank you for contributing!!.
+
+## Video Demo 
+- [![Click Here](https://drive.google.com/file/d/1oAVTyIZi2A0YamBhVqbi0vlmdhpnmTqr/view?usp=sharing)
+
 
 ## Contact me at
   - [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/sarthak-p-645381202/)
