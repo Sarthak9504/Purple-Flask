@@ -86,7 +86,7 @@ Lab Inventory Management solutions using `firebase`
   - Thank you for contributing!!.
 
 ## Video Demo 
-- [![Click Here](https://drive.google.com/file/d/1oAVTyIZi2A0YamBhVqbi0vlmdhpnmTqr/view?usp=sharing)
+- [Click Here](https://drive.google.com/file/d/1oAVTyIZi2A0YamBhVqbi0vlmdhpnmTqr/view?usp=sharing)
 
 
 ## Contact me at
